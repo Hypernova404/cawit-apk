@@ -182,7 +182,12 @@ function renderResult(result, opts) {
   const area = document.getElementById('resultArea');
   const options = opts || {};
   area.classList.remove('hidden');
-  hideHistory();
+  const hs = document.getElementById('historyArea');
+  if (hs) hs.classList.add('hidden');
+  if (!options.fromHistory) {
+    const form = document.getElementById('formCard');
+    if (form) form.classList.remove('hidden');
+  }
 
   /* --- kartu LCC saja --- */
   if (result.lccOnly) {
@@ -283,10 +288,7 @@ function renderResult(result, opts) {
     '<p style="font-size:13.5px;color:var(--muted);margin-top:10px">Umur sawit terpilih: <strong>' +
     (result.age === 'muda' ? AGE.muda.short : AGE.dewasa.short) + '</strong> · Takaran utama memakai nilai tengah — gulma tebal pakai mendekati batas atas, gulma baru tumbuh pakai mendekati batas bawah.</p>';
 
-  const actions =
-    '<div class="btn-row">' +
-      '<button class="btn-ghost" onclick="resetForm()">🔄 Hitung Ulang</button>' +
-    '</div>';
+const actions = '';
 
   area.innerHTML =
     '<div class="card result-card">' +
@@ -297,6 +299,8 @@ function renderResult(result, opts) {
     strukMain + strukAlt +
     actions;
 }
+
+function resetBtnHtml() { return ''; }
 
 
 function resetBtnHtml() {
@@ -496,7 +500,9 @@ document.addEventListener('click', function (e) {
     const id = Number(lihat.dataset.rid);
     const en = getHistory().find((x) => x.id === id);
     if (en) {
-      hideHistory();
+      const hs = document.getElementById('historyArea');
+      hs.classList.add('hidden');
+      hs.innerHTML = '';
       renderResult(en.result, { fromHistory: true });
       const rArea = document.getElementById('resultArea');
       rArea.scrollIntoView({ behavior: 'smooth', block: 'start' });

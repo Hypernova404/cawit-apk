@@ -362,7 +362,7 @@ input[type="number"]:focus { outline: none; border-color: var(--green-700); back
   font-size: 18px;
   font-weight: 800;
   color: var(--green-900);
-  padding: 4px 18px 14px;
+  padding: 4px 18px 14px 68px;
   border-bottom: 1px solid #eef2ec;
   margin-bottom: 8px;
 }
