@@ -304,7 +304,7 @@ function resetBtnHtml() { return ''; }
 
 /* ---------- alur utama ---------- */
 function handleHitung() {
-  const luasRaw = document.getElementById('luas').value.trim().replace(',', '.');
+  const luasRaw = document.getElementById('luas').value.trim().replace(/ /g, '').replace(',', '.');
   const luas = Number(luasRaw);
   let ok = true;
 
@@ -334,7 +334,12 @@ function handleHitung() {
     hideError('ageError');
   }
 
-  if (!ok) return;
+  if (!ok) {
+    const area = document.getElementById('resultArea');
+    area.classList.add('hidden');
+    area.innerHTML = '';
+    return;
+  }
 
   const result = calculate(luas, selected, ageEl.value);
   renderResult(result);
@@ -361,11 +366,9 @@ function resetForm() {
 
 document.addEventListener('DOMContentLoaded', () => {
   renderWeedCards();
-  document.getElementById('hitungBtn').addEventListener('click', () => {
-    document.querySelectorAll('input[name="age"]').forEach((r) => r.addEventListener('change', () => hideError('ageError')));
-    handleHitung();
-  });
+  document.getElementById('hitungBtn').addEventListener('click', handleHitung);
   document.getElementById('luas').addEventListener('input', () => hideError('luasError'));
+  document.querySelectorAll('input[name="age"]').forEach((r) => r.addEventListener('change', () => hideError('ageError')));
 });
 
 /* ---------- burger menu ---------- */
@@ -409,7 +412,7 @@ function persistHistory(list) {
 function saveToHistory(result) {
   const list = getHistory();
   const entry = {
-    id: Date.now(),
+    id: Date.now() + Math.floor(Math.random() * 10000),
     tanggal: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
     luas: result.luas,
     luasLabel: fmt(result.luas) + ' ha',
@@ -482,11 +485,33 @@ function showHistory() {
   hs.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function hapusSemua() {
-  if (!window.confirm('Hapus semua riwayat perhitungan?')) return;
-  clearHistory();
-  showHistory();
+/* ---------- modal konfirmasi (pengganti window.confirm, agar jalan di WebView Android) ---------- */
+let modalCb = null;
+function askConfirm(text, cb) {
+  document.getElementById('modalText').textContent = text;
+  document.getElementById('modal').classList.remove('hidden');
+  modalCb = cb;
 }
+function modalClose() {
+  document.getElementById('modal').classList.add('hidden');
+  modalCb = null;
+}
+function hapusSemua() {
+  askConfirm('Hapus semua riwayat perhitungan?', function () {
+    clearHistory();
+    showHistory();
+  });
+}
+
+document.addEventListener('click', function (e) {
+  if (e.target.closest('#modalYes')) {
+    const cb = modalCb;
+    modalClose();
+    if (cb) cb();
+  } else if (e.target.closest('#modalNo') || e.target.closest('#modal')) {
+    modalClose();
+  }
+});
 
 document.addEventListener('click', function (e) {
   const lihat = e.target.closest('.hist-btn.lihat');
@@ -494,7 +519,7 @@ document.addEventListener('click', function (e) {
   if (lihat) {
     const id = Number(lihat.dataset.rid);
     const en = getHistory().find((x) => x.id === id);
-    if (en) {
+    if (en && en.result) {
       const hs = document.getElementById('historyArea');
       hs.classList.add('hidden');
       hs.innerHTML = '';
