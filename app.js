@@ -302,11 +302,6 @@ const actions = '';
 
 function resetBtnHtml() { return ''; }
 
-
-function resetBtnHtml() {
-  return '<div class="btn-row"><button class="btn-ghost" onclick="resetForm()">🔄 Hitung Ulang</button></div>';
-}
-
 /* ---------- alur utama ---------- */
 function handleHitung() {
   const luasRaw = document.getElementById('luas').value.trim().replace(',', '.');
