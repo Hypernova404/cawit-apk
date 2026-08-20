@@ -1,5 +1,5 @@
 /* =========================================================
-   UI — Cawit (render kartu gulma, hasil, tabel struk)
+   UI — Cawitkuku (render kartu gulma, hasil, tabel struk)
    ========================================================= */
 
 const svgWrap = (inner, vb = '0 0 64 64') =>

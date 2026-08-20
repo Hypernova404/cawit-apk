@@ -1,5 +1,5 @@
 /* =========================================================
-   DATA & MESIN PERHITUNGAN — Cawit
+   DATA & MESIN PERHITUNGAN — Cawitku
    (data gulma, obat, perekat & logika hitung; tanpa DOM)
    ========================================================= */
 
