@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cawit — Kalkulator kebutuhan herbisida untuk pengendalian gulma di kebun kelapa sawit. Hitung kebutuhan bahan aktif, air, dan kapasitas tangki semprot sesuai luas lahan.">
+  <title>Cawit 🌴 Kalkulator Obat Semprot Kebun Sawit</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='48' font-size='48'>🌴</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <button id="burgerBtn" class="burger" aria-label="Buka menu" aria-expanded="false">☰</button>
+  <div id="drawerOverlay" class="drawer-overlay hidden"></div>
+  <nav id="drawer" class="drawer" aria-hidden="true">
+    <div class="drawer-head">🌴 Cawit</div>
+    <button class="drawer-item" data-action="calc"><span class="di-ico">📐</span> Menu Perhitungan</button>
+    <button class="drawer-item" data-action="history"><span class="di-ico">🕘</span> Riwayat Perhitungan</button>
+    <div class="drawer-ver">Versi Aplikasi (Android)</div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="brand">🌴 Cawit</div>
+      <h1>Kalkulator Obat Semprot Kebun Sawit</h1>
+      <p class="tagline">Hitung kebutuhan herbisida, air, dan kapasitas tangki semprot secara akurat sesuai luas lahan — efisien dan tepat sasaran.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card form-card" id="formCard">
+      <div class="field">
+        <label for="luas">📐 Luas Lahan (hektar)</label>
+        <input type="number" id="luas" inputmode="decimal" step="any" min="0" placeholder="Contoh: 2.5" autocomplete="off">
+        <p class="hint">Masukkan luas lahan dalam hektar. Contoh: 1 ha = 10.000 m².</p>
+        <p class="error hidden" id="luasError"></p>
+      </div>
+
+      <div class="field">
+        <label>🌿 Gulma / Rumput Liar di Kebunmu <span class="req">(boleh pilih lebih dari satu)</span></label>
+        <p class="hint">Biasanya campur-campur, jadi pilih semua jenis yang kamu lihat tumbuh di kebun.</p>
+        <div id="weedCards" class="weed-grid"></div>
+        <p class="error hidden" id="weedError"></p>
+      </div>
+
+      <div class="field">
+        <label>🌱 Umur Tanaman Sawit</label>
+        <div class="age-options" id="ageOptions">
+          <label class="age-opt">
+            <input type="radio" name="age" value="muda">
+            <span class="age-box">
+              <span class="age-emoji">🌿</span>
+              <span><strong>Sawit Muda</strong><br><small>Baru tanam s/d ±3–4 tahun, belum berbuah</small></span>
+            </span>
+          </label>
+          <label class="age-opt">
+            <input type="radio" name="age" value="dewasa">
+            <span class="age-box">
+              <span class="age-emoji">🌴</span>
+              <span><strong>Sawit Dewasa</strong><br><small>Sudah berbuah</small></span>
+            </span>
+          </label>
+        </div>
+        <p class="error hidden" id="ageError"></p>
+      </div>
+
+      <button class="btn-primary" id="hitungBtn">💧 Hitung Kebutuhan Obat Semprot</button>
+    </section>
+
+    <section id="resultArea" class="hidden"></section>
+
+    <section id="historyArea" class="hidden"></section>
+
+    <section class="card disclaimer">
+      <p>⚠️ <strong>Catatan penting:</strong> Jumlah di aplikasi ini adalah <strong>perkiraan umum</strong> berdasarkan panduan pertanian, bukan pengganti label resmi. Kondisi gulma dan cuaca di kebun bisa berbeda-beda — sesuaikan selalu dengan <strong>label kemasan obat yang dibeli</strong> dan kalau ragu tanyakan ke penyuluh pertanian (PPL) atau toko pertanian terpercaya di daerahmu.</p>
+      <p class="small">Aplikasi hanya menghitung kebutuhan bahan &amp; air — <strong>bukan harga/biaya</strong>. Herbisida berbahan Paraquat dan 2,4-D Amina tidak ada di sini karena izin edarnya sudah dicabut Kementerian Pertanian RI.</p>
+    </section>
+
+    <footer class="foot">🌿 Dibuat sederhana untuk petani sawit rakyat Indonesia</footer>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
